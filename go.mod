@@ -1,4 +1,4 @@
-module github.com/Vasanthakumar.V/goabm
+module github.com/VasanthakumarV/goabm
 
 require (
 	github.com/golang/protobuf v1.2.0

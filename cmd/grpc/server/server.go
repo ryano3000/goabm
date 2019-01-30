@@ -2,13 +2,13 @@ package server
 
 import (
 	"context"
-	"github.com/Vasanthakumar.V/goabm/apis/grpc/proto/agentpb"
+	"github.com/VasanthakumarV/goabm/apis/grpc/proto/agentpb"
 )
 
 
 type server struct{}
 
-func (*server) Status(ctx context.Context, req *agentpb.) {
+func (*server) Status(ctx context.Context, req ) {
 
 }
 
