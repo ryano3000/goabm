@@ -1,2 +1,2 @@
 #!/bin/bash
-protoc ./agent.proto --go-out=plugins=grpc:.
+protoc ./agent.proto --go_out=plugins=grpc:.

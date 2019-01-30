@@ -2,7 +2,12 @@ syntax = "proto3";
 
 option go_package="agentpb";
 
-message AgentStatusRequest {
-    string status = 1;
-}
+message AgentStatusRequest {};
 
+message AgentStatusResponse {
+    string status  = 1;
+};
+
+service AgentStatusService {
+    rpc Status(AgentStatusRequest) returns (stream AgentStatusResponse);
+}
