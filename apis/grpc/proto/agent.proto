@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package="agentpb";
+// option go_package="agentpb";
 
 message AgentStatusRequest {};
 
