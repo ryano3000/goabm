@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option go_package="agentpb";
+
+message AgentStatusRequest {
+    string status = 1;
+}
+
