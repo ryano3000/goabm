@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net"
-	"time"
 
 	"github.com/VasanthakumarV/goabm/apis/grpc/proto"
 	"github.com/VasanthakumarV/goabm/internal/shopper"
@@ -18,10 +17,14 @@ func (*server) Status(req *agent.AgentStatusRequest, stream agent.AgentStatusSer
 	// Create a world with arg which specify
 	// the buffer size for the channel and the max number of
 	// goroutines
-	w := abm.NewWorld(1, 2)
+	w := abm.NewWorld(10, 10)
 
 	// Create slice of agents to send in
-	ss := []abm.Agent{&shopper.Agent{}, &shopper.Agent{}}
+	ss := []abm.Agent{&shopper.Agent{}, &shopper.Agent{},
+		&shopper.Agent{}, &shopper.Agent{},
+		&shopper.Agent{}, &shopper.Agent{},
+		&shopper.Agent{}, &shopper.Agent{},
+		&shopper.Agent{}, &shopper.Agent{}}
 
 	// Run the simulation for 5 ticks and
 	in := w.Start(5, ss)
@@ -34,7 +37,6 @@ func (*server) Status(req *agent.AgentStatusRequest, stream agent.AgentStatusSer
 			Status: status.Status,
 		}
 		stream.Send(res)
-		time.Sleep(time.Second)
 	}
 
 	return nil

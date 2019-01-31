@@ -19,6 +19,9 @@ func (w *World) Start(ticks int, aa []Agent) chan interface{} {
 	out := make(chan interface{}, w.buffer)
 	guard := make(chan struct{}, w.guard)
 
+	noOfAgents := len(aa)
+	stride := noOfAgents / w.guard
+
 	// wg to help identify when all agents complete their
 	// action after a tick
 	var wg sync.WaitGroup
@@ -27,17 +30,19 @@ func (w *World) Start(ticks int, aa []Agent) chan interface{} {
 		// outer loop for tick
 		for i := 0; i < ticks; i++ {
 			// inner loop to range over given slice of agents
-			for _, a := range aa {
+			for j := 0; j < noOfAgents; j = j + stride {
 				wg.Add(1)
 				// guard channels buffer size limits no of goroutines
 				// started
 				guard <- struct{}{}
-				go func(a Agent) {
+				go func(a []Agent) {
 					// output of Run fed to the client through a channel
-					out <- a.Run()
+					for _, agent := range a {
+						out <- agent.Run()
+					}
 					wg.Done()
 					<-guard
-				}(a)
+				}(aa[j : j+stride])
 			}
 			wg.Wait()
 		}
