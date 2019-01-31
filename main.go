@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/csv"
 	"log"
 	"net"
+	"os"
 
 	"github.com/VasanthakumarV/goabm/apis/grpc/proto"
 	"github.com/VasanthakumarV/goabm/internal/shopper"
@@ -20,11 +22,20 @@ func (*server) Status(req *agent.AgentStatusRequest, stream agent.AgentStatusSer
 	w := abm.NewWorld(10, 10)
 
 	// Create slice of agents to send in
-	ss := []abm.Agent{&shopper.Agent{}, &shopper.Agent{},
-		&shopper.Agent{}, &shopper.Agent{},
-		&shopper.Agent{}, &shopper.Agent{},
-		&shopper.Agent{}, &shopper.Agent{},
-		&shopper.Agent{}, &shopper.Agent{}}
+
+	f, _ := os.Open("data/agents.csv")
+	r := csv.NewReader(f)
+	ss := []abm.Agent{}
+	records, _ := r.ReadAll()
+	for _, r := range records {
+		ss = append(ss, &shopper.Agent{Status: r[0]})
+	}
+
+	// ss := []abm.Agent{&shopper.Agent{}, &shopper.Agent{},
+	// 	&shopper.Agent{}, &shopper.Agent{},
+	// 	&shopper.Agent{}, &shopper.Agent{},
+	// 	&shopper.Agent{}, &shopper.Agent{},
+	// 	&shopper.Agent{}, &shopper.Agent{}}
 
 	// Run the simulation for 5 ticks and
 	in := w.Start(5, ss)
